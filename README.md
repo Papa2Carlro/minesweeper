@@ -1,16 +1,4 @@
-## Готовая сборка Webpack
-
-<div>
-    <a href="https://github.com/webpack/webpack">
-        <img width="150" height="150" src="https://webpack.js.org/assets/icon-square-big.svg">
-    </a>
-</div>
-<br/>
-<br/>
-
-![GitHub release](https://img.shields.io/github/release/brovkin/webpack-frontend-template.svg)
-![GitHub stars](https://img.shields.io/github/stars/brovkin/webpack-frontend-template.svg?style=social)
-![GitHub watchers](https://img.shields.io/github/watchers/brovkin/webpack-frontend-template.svg?style=social)
+## Minesweeper
 
 ## Особенности сборки
 
@@ -65,13 +53,5 @@ npm install
 ```bash
 npm start
 ```
-
-## Связаться со мной
-
-* ВКонтакте: [@artembrovkin](https://vk.com/artembrovkin)
-* Instagram: [@brovkin_artem](https://www.instagram.com/brovkin_artem/)
-
-## Сайт
-### [brozabro.ru](https://brozabro.ru)
 
 

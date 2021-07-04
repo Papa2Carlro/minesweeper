@@ -16,7 +16,6 @@
     "javascript",
     "webpack"
   ],
-  "author": "You're welcome! <brovkin.on@gmail.com>",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.9.0",

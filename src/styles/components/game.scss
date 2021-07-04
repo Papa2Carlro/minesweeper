@@ -1,0 +1,98 @@
+.game {
+    $parent: &;
+    position: relative;
+
+    &__front,
+    &__back {
+        display: grid;
+
+        grid-template-columns: repeat(var(--col), var(--size));
+        grid-template-rows: repeat(var(--row), var(--size));
+    }
+
+    &__front {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        #{$parent} {
+
+            &__item {
+                transition: .3s 0s;
+
+                opacity: 0;
+                visibility: hidden;
+
+                &.odd {
+                    background: $odd-green;
+                }
+                &.even {
+                    background: $even-green;
+                }
+
+                &.hide {
+                    transform: scale(0);
+                    border-radius: 50px;
+                }
+
+                &[data-fill] {
+                    opacity: 1;
+                    visibility: visible;
+                }
+
+                img {
+                    width: 100%;
+                    padding: 5px;
+                    user-select: none;
+                }
+
+                &:hover {
+                    background: $light-green;
+                }
+            }
+        }
+    }
+
+    &__back {
+
+        #{$parent} {
+
+            &__item {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                font-weight: 600;
+                font-size: var(--fonts);
+                cursor: default;
+
+                user-select: none;
+                transition: .3s 0s;
+
+                &.odd {
+                    background: $odd-grey;
+                }
+                &.even {
+                    background: $even-grey;
+                }
+
+                $colors: (
+                    1: #0000FF,
+                    2: #008000,
+                    3: #FF0100,
+                    4: #0C0F84,
+                    5: #800000,
+                    6: teal,
+                    7: black,
+                    8: grey,
+                );
+
+                @each $num, $color in $colors {
+                    &.num_#{$num} {
+                        color: $color;
+                    }
+                }
+            }
+        }
+    }
+}
