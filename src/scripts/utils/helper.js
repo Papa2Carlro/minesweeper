@@ -5,6 +5,9 @@ export function _(el) {
         querySelectorJs(selector) {
             return el.querySelector(`[data-js="${selector}"]`)
         },
+        querySelectorJsAll(selector) {
+            return el.querySelectorAll(`[data-js="${selector}"]`)
+        },
         querySelectorXY(x, y) {
             return el.querySelector(`[data-x="${x}"][data-y="${y}"]`)
         },

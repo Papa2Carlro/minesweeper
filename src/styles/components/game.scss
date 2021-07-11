@@ -40,6 +40,30 @@
                     visibility: visible;
                 }
 
+                &.bomb {
+                    position: relative;
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    &:after{
+                        content: '';
+
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+
+                        transform: translate(-50%, -50%);
+
+                        width: 50%;
+                        height: 50%;
+
+                        border-radius: 50%;
+                        background: rgba(rebeccapurple, .7);
+                    }
+                }
+
                 img {
                     width: 100%;
                     padding: 5px;
@@ -90,6 +114,25 @@
                 @each $num, $color in $colors {
                     &.num_#{$num} {
                         color: $color;
+                    }
+                }
+            }
+        }
+    }
+
+    &.promp {
+
+        #{$parent} {
+
+            &__front {
+
+                #{$parent} {
+
+                    &__item {
+
+                        &:hover {
+                            background: rebeccapurple;
+                        }
                     }
                 }
             }

@@ -1,4 +1,6 @@
 import {_} from '@/scripts/utils/helper'
+import randIntException from "@/scripts/utils/random"
+import {openSquare} from "@/scripts/functions/mainGame"
 
 function generateField() {
     const list = []
@@ -15,6 +17,12 @@ function generateField() {
             break
         case 2:
             complexity = .4
+            break
+        case 3:
+            complexity = .35
+            break
+        case 4:
+            complexity = .32
             break
     }
     const chance = chance => Math.random() - complexity > chance ? '*' : null
@@ -40,9 +48,9 @@ function generateField() {
             if (val === '*') return
 
             const square = [
-                [iX - 1, iY - 1], [iX, iY - 1], [iX + 1, iY - 1],
-                [iX - 1, iY],                   [iX + 1, iY],
-                [iX - 1, iY + 1], [iX, iY + 1], [iX + 1, iY + 1]
+                [iX-1,iY-1], [iX,iY-1], [iX+1,iY-1],
+                [iX-1, iY ],            [iX+1, iY ],
+                [iX-1,iY+1], [iX,iY+1], [iX+1,iY+1]
             ]
 
             square.map(([x, y]) => value(x, y) ? counter++ : '')
@@ -51,6 +59,7 @@ function generateField() {
     })
 
     this.watch.bomb = colBomb
+    this.watch.promp = this.TYPES[this.watch.complexity].prompt
 
     return list
 }
@@ -80,12 +89,24 @@ function generateLayout() {
         })
     })
 }
+function openZero() {
+    const zero = []
+
+    this.field.map((row, y) => {
+        row.map((val, x) => {
+            if (val === 0) zero.push([x, y])
+        })
+    })
+
+    const [x, y] = zero[randIntException(0, zero.length, [])]
+    openSquare.call(this, x, y)
+}
 
 export default function(_this) {
     const list = ['back', 'front']
     list.map(str => _(_this[`$game_${str}`]).html())
 
     _this.field = generateField.call(_this)
-    console.log(_this.field)
     generateLayout.call(_this)
+    openZero.call(_this)
 }

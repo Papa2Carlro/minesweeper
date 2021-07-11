@@ -23,6 +23,11 @@ body {
         align-items: center;
         justify-content: space-between;
 
+        color: #fff;
+
+        font-weight: 500;
+        font-size: 18px;
+
         &-select {
             font-size: 15px;
             font-weight: bold;
@@ -49,13 +54,6 @@ body {
 
             img {
                 width: 20px;
-            }
-
-            span {
-                color: #fff;
-
-                font-weight: 500;
-                font-size: 18px;
             }
         }
     }

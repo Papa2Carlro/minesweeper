@@ -1,4 +1,4 @@
-import {_, isObject} from '@/scripts/utils/helper'
+import {_, isObject, wait} from '@/scripts/utils/helper'
 import flag from '@/assets/images/flag.svg'
 
 function openItem(item, value, {x, y}) {
@@ -10,16 +10,16 @@ function openItem(item, value, {x, y}) {
     _(item).addClass('hide')
     setTimeout(() => _(item).rAttr('data-fill'), 300)
 }
-function openSquare(x, y) {
+export function openSquare(x, y) {
     const emptyList = []
 
     const addToEmpty = (_x, _y) => {
         const [double] = emptyList.filter(({x: $x, y: $y}) => $x === _x && $y === _y)
         if (!isObject(double)) emptyList.push({x: _x, y: _y})
         const square = [
-            [_x - 1, _y - 1], [_x, _y - 1], [_x + 1, _y - 1],
-            [_x - 1, _y], [_x + 1, _y],
-            [_x - 1, _y + 1], [_x, _y + 1], [_x + 1, _y + 1]
+            [_x-1,_y-1], [_x,_y-1], [_x+1,_y-1],
+            [_x-1, _y ],            [_x+1, _y ],
+            [_x-1,_y+1], [_x,_y+1], [_x+1,_y+1]
         ]
 
         square.map(([xC, yC]) => {
@@ -43,12 +43,29 @@ function openSquare(x, y) {
         openItem.call(this, $item, this.field[coord.y][coord.x], {x: coord.x, y: coord.y})
     })
 }
-function endGame(x, y) {
-    console.log("BANG!!!")
+async function endGame(_x, _y) {
+    this.END_GAME = true
+    const bomb = []
+    this.field.map((row, y) => {
+        row.map((val, x) => {
+            if (val === '*') bomb.push([x, y])
+        })
+    })
+
+    bomb.map(([x, y]) => {
+        const item = _(this.$game_front).querySelectorXY(x, y)
+        if (x === _x && y === _y) _(item).css({background: 'tomato'})
+
+        if (item.dataset.close === undefined) _(item).addClass('bomb').html(`<span class="bomb__item"></span>`)
+    })
+
+    await wait(1)
+    _(this.$again).addClass('open')
 }
 
 function gameEvents() {
     this.$game_front.addEventListener('click', e => {
+        if (this.END_GAME) return
         const target = e.target.closest('[data-fill]')
 
         if (target) {
@@ -58,7 +75,11 @@ function gameEvents() {
 
             switch (value) {
                 case '*':
-                    endGame.call(this, +x, +y)
+                    if (this.watch.PROMP) {
+                        this.watch.bomb--
+                        target.dataset.close = ''
+                        _(target).html(`<img src="${flag}" alt="" />`)
+                    } else endGame.call(this, +x, +y)
                     break
                 case 0:
                     openSquare.call(this, +x, +y)
@@ -67,10 +88,16 @@ function gameEvents() {
                     openItem.call(this, target, value, {x, y})
                     break
             }
+
+            if (this.watch.PROMP) {
+                this.watch.promp--
+                this.watch.PROMP = false
+            }
         }
     })
     this.$game_front.addEventListener('contextmenu', e => {
         e.preventDefault()
+        if (this.END_GAME) return
         const target = e.target.closest('[data-fill]')
 
         if (target) {
