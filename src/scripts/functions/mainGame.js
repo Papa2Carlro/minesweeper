@@ -84,8 +84,8 @@ function gameEvents() {
                     } else {
                         endGame.call(this, +x, +y)
                         const record = Cookies.get('game').split(',')
-                        const thisRecord = record[this.watch.complexity]
-                        record[this.watch.complexity] = this.watch.bomb >= thisRecord ? thisRecord : this.watch.bomb
+                        const thisRecord = +record[this.watch.complexity]
+                        record[this.watch.complexity] = this.watch.bomb >= thisRecord && thisRecord !== 0 ? thisRecord : this.watch.bomb
                         Cookies.set('game', record, {expires: 365})
                     }
                     break

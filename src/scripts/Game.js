@@ -8,6 +8,7 @@ import refresh from '@/assets/images/refresh.svg'
 
 export default class Game {
     constructor(root) {
+        this.version = '1.1.0'
         this.$root = document.body.querySelector(root)
 
         this.field = []
@@ -21,7 +22,7 @@ export default class Game {
         this.END_GAME = false
 
         const _this = this
-        this.watch = new Proxy({complexity: 0, PROMP: false}, {
+        this.watch = new Proxy({complexity: 4, PROMP: false}, {
             set(...arg) {
                 const result = Reflect.set(...arg) // eslint-disable-next-line no-unused-vars
                 const [__, variable, value] = arg
@@ -128,6 +129,7 @@ export default class Game {
                     <div data-js="promt_wrapper">
                         Prompt: <span data-js="promt"></span> <button data-js="promt_use">Use</button>
                     </div>
+                    <div class="app__header-version">${this.version}</div>
                 </div>
             </header>
             <main data-js="game" class="game">

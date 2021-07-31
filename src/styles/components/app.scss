@@ -63,6 +63,11 @@ body {
             align-items: center
         }
 
+        &-version {
+            font-size: 12px;
+            opacity: .6;
+        }
+
         [data-js="record"] {
             display: flex;
             align-items: center;
