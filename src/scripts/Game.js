@@ -3,6 +3,7 @@ import gameInit from "@/scripts/functions/mainGame"
 // Helper
 import {_} from "@/scripts/utils/helper"
 import flag from '@/assets/images/flag.svg'
+import win from '@/assets/images/win.svg'
 import refresh from '@/assets/images/refresh.svg'
 
 export default class Game {
@@ -11,19 +12,18 @@ export default class Game {
 
         this.field = []
         this.TYPES = [
-            {label: 'Ease', col: 10, row: 8, size: 45, fonts: 28},
-            {label: 'Medium', col: 18, row: 14, size: 40, fonts: 26},
-            {label: 'Hard', col: 24, row: 20, size: 35, fonts: 24, openZero: true, prompt: 2},
+            {label: 'Ease', col: 10, row: 8, size: 45, fonts: 32},
+            {label: 'Medium', col: 18, row: 14, size: 40, fonts: 29},
+            {label: 'Hard', col: 24, row: 20, size: 35, fonts: 26, openZero: true, prompt: 2},
             {label: 'Super Hard', col: 40, row: 26, size: 25, fonts: 21, openZero: true, prompt: 5},
             {label: 'You Die!', col: 70, row: 35, size: 20, fonts: 18, openZero: true, prompt: 10},
         ]
         this.END_GAME = false
 
         const _this = this
-        this.watch = new Proxy({complexity: 4, PROMP: false}, {
+        this.watch = new Proxy({complexity: 0, PROMP: false}, {
             set(...arg) {
-                const result = Reflect.set(...arg)
-                // eslint-disable-next-line no-unused-vars
+                const result = Reflect.set(...arg) // eslint-disable-next-line no-unused-vars
                 const [__, variable, value] = arg
 
                 switch (variable) {
@@ -57,6 +57,7 @@ export default class Game {
         this.$game_front = _(this.$game).querySelectorJs('game_front')
 
         this.$bomb = _(this.$root).querySelectorJs('bomb')
+        this.$record = _(this.$root).querySelectorJs('record')
 
         this.$promt = _(this.$root).querySelectorJs('promt')
         this.$promtBtn = _(this.$root).querySelectorJs('promt_use')
@@ -69,7 +70,6 @@ export default class Game {
     }
 
     init() {
-        console.log(this)
         gameInit(this)
         generateFields(this)
 
@@ -90,10 +90,7 @@ export default class Game {
             _(this.$again).removeClass('open')
         })
 
-        this.$promtBtn.addEventListener('click', () => {
-            // if (this.watch.promp === 0) return
-            this.watch.PROMP = !this.watch.PROMP
-        })
+        this.$promtBtn.addEventListener('click', () => this.watch.PROMP = !this.watch.PROMP)
     }
 
     layout() {
@@ -122,9 +119,15 @@ export default class Game {
                         <img src="${flag}" alt="">
                         <span data-js="bomb"></span>
                     </div>
+                    <div data-js="record">
+                        <img src=${win} alt="">
+                        <span></span>
+                    </div>
                 </div>
-                <div data-js="promt_wrapper">
-                    Prompt: <span data-js="promt"></span> <button data-js="promt_use">Use</button>
+                <div class="app__header-more">
+                    <div data-js="promt_wrapper">
+                        Prompt: <span data-js="promt"></span> <button data-js="promt_use">Use</button>
+                    </div>
                 </div>
             </header>
             <main data-js="game" class="game">

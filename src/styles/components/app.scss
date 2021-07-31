@@ -1,5 +1,4 @@
 body {
-    overflow: hidden;
     font-family: 'Montserrat', sans-serif;
 
     min-width: 100vw;
@@ -12,6 +11,7 @@ body {
 
 .app {
     position: relative;
+    padding: 20px;
 
     &__header {
         height: 50px;
@@ -54,6 +54,22 @@ body {
 
             img {
                 width: 20px;
+            }
+        }
+
+        &-more {
+            display: flex;
+            gap: 15px;
+            align-items: center
+        }
+
+        [data-js="record"] {
+            display: flex;
+            align-items: center;
+
+            img {
+                width: 24px;
+                margin-right: 6px;
             }
         }
     }

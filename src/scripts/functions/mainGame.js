@@ -1,3 +1,5 @@
+import Cookies from 'js-cookie'
+
 import {_, isObject, wait} from '@/scripts/utils/helper'
 import flag from '@/assets/images/flag.svg'
 
@@ -79,7 +81,13 @@ function gameEvents() {
                         this.watch.bomb--
                         target.dataset.close = ''
                         _(target).html(`<img src="${flag}" alt="" />`)
-                    } else endGame.call(this, +x, +y)
+                    } else {
+                        endGame.call(this, +x, +y)
+                        const record = Cookies.get('game').split(',')
+                        const thisRecord = record[this.watch.complexity]
+                        record[this.watch.complexity] = this.watch.bomb >= thisRecord ? thisRecord : this.watch.bomb
+                        Cookies.set('game', record, {expires: 365})
+                    }
                     break
                 case 0:
                     openSquare.call(this, +x, +y)

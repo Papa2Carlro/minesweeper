@@ -1,3 +1,5 @@
+import Cookies from "js-cookie"
+
 import {_} from '@/scripts/utils/helper'
 import randIntException from "@/scripts/utils/random"
 import {openSquare} from "@/scripts/functions/mainGame"
@@ -105,6 +107,19 @@ function openZero() {
 export default function(_this) {
     const list = ['back', 'front']
     list.map(str => _(_this[`$game_${str}`]).html())
+
+    const record = Cookies.get('game')
+    if (!record) {
+        _(_this.$record).css({display: 'none'})
+        Cookies.set('game', new Array(_this.TYPES.length).fill(0), {expires: 365})
+    } else {
+        const value = +Cookies.get('game').split(',')[_this.watch.complexity]
+        if (value) {
+            _(_this.$record).css({display: 'flex'})
+            _this.$record.querySelector('span').textContent = value
+        }
+        else _(_this.$record).css({display: 'none'})
+    }
 
     _this.field = generateField.call(_this)
     generateLayout.call(_this)
